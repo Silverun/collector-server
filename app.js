@@ -18,7 +18,7 @@ app.use("/collection", collectionRoute);
 
 const port = process.env.PORT;
 
-app.get("/", async (req, res) => {
+app.get("/sync", async (req, res) => {
   await SyncAllModels();
   //   await User.sync();
   res.send("Hello World!");

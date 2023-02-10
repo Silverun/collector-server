@@ -37,12 +37,12 @@ const loginUser = async (req, res) => {
           const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: "1d",
           });
-          res.status(200).json({ token: jwtToken });
+          res.status(200).json({ message: "Logged in!", token: jwtToken });
         } else {
           res.status(403).send("Email or password does not match!");
         }
       } else {
-        res.status(400).send("User not found");
+        res.status(400).send("This user does not exist!");
       }
     } catch (err) {
       console.log(err);
