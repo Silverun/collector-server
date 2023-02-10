@@ -1,23 +1,26 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const createUser = async (req, res) => {
-  //hash password
-  // add role
-  if (req.body.username && req.body.password && req.body.email) {
+  const { username, email, password } = req.body;
+
+  if (username && password && email) {
     try {
-      const result = await User.create({
-        userName: req.body.username,
-        userEmail: req.body.email,
-        userPassword: req.body.password,
+      const hashPass = await bcrypt.hash(password, 7);
+      await User.create({
+        userName: username,
+        userEmail: email,
+        userPassword: hashPass,
+        userRole: 1,
       });
 
-      res.send("User created");
+      res.status(200).send("User created.");
     } catch (err) {
       console.log(err);
     }
   } else {
-    res.send("Something went wrong");
+    res.status(400).send("Please fill in all the fields.");
   }
 };
 
@@ -30,10 +33,12 @@ const loginUser = async (req, res) => {
         where: { userEmail: email },
       });
       if (user) {
-        // check bcrypt.compare(mypass, dbpass, (err,result) => result == true)
-        if (user.userPassword === password) {
-          // do sent to front
-          const payload = { id: user.id, email: user.userEmail };
+        if (await bcrypt.compare(password, user.userPassword)) {
+          const payload = {
+            id: user.id,
+            email: user.userEmail,
+            role: user.userRole,
+          };
           const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: "1d",
           });
@@ -52,5 +57,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = createUser;
-module.exports = loginUser;
+module.exports = {
+  loginUser,
+  createUser,
+};

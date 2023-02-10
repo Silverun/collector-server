@@ -20,8 +20,7 @@ const port = process.env.PORT;
 
 app.get("/sync", async (req, res) => {
   await SyncAllModels();
-  //   await User.sync();
-  res.send("Hello World!");
+  res.sendStatus(200);
 });
 
 app.listen(port, () => {
