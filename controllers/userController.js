@@ -2,6 +2,7 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { SequelizeScopeError, ValidationError } = require("sequelize");
+const cookiesOpts = require("../config/cookies");
 require("dotenv").config;
 
 const createUser = async (req, res, next) => {
@@ -63,10 +64,7 @@ const loginUser = async (req, res) => {
           // store refresh token in DB maybe hash it
           await user.update({ refreshToken: refreshToken });
           // send cookie with refresh token to client CHECK OPTIONS!!!
-          res.cookie("jwt", refreshToken, {
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000,
-          });
+          res.cookie("jwt", refreshToken, cookiesOpts);
           res
             .status(200)
             .json({ message: "Logged in!", accessToken: accessToken });
@@ -84,7 +82,35 @@ const loginUser = async (req, res) => {
   }
 };
 
+const logoutUser = async (req, res) => {
+  // on client also delete teh access Token
+  const cookies = req.cookies;
+
+  if (!cookies?.jwt) return res.status(204).send("No one to logout");
+  const refreshToken = cookies.jwt;
+  try {
+    //find user with same ref token
+    const user = await User.findOne({
+      where: { refreshToken: refreshToken },
+    });
+    if (!user) {
+      // CHECK COOKIE BEFORE DEPLOY
+      res.clearCookie("jwt", cookiesOpts);
+
+      return res.status(204).send("Cookie cleared");
+    }
+    //delete ref token in db
+    await user.update({ refreshToken: "none" });
+    // CHECK OPTIONS ---- add secure: true
+    res.clearCookie("jwt", cookiesOpts);
+    res.status(204).send("User logged out, token and cookie cleared");
+  } catch (error) {
+    res.status(400).send("Something went wrong during logout");
+  }
+};
+
 module.exports = {
   loginUser,
   createUser,
+  logoutUser,
 };
