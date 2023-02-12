@@ -65,9 +65,13 @@ const loginUser = async (req, res) => {
           await user.update({ refreshToken: refreshToken });
           // send cookie with refresh token to client CHECK OPTIONS!!!
           res.cookie("jwt", refreshToken, cookiesOpts);
-          res
-            .status(200)
-            .json({ message: "Logged in!", accessToken: accessToken });
+          res.status(200).json({
+            message: "Logged in!",
+            accessToken: accessToken,
+            role: user.userRole,
+            id: user.id,
+            username: user.userName,
+          });
           // accessToken goes to client
         } else {
           res.status(403).send("Email or password does not match!");
