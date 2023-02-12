@@ -52,7 +52,7 @@ const loginUser = async (req, res) => {
           // Create Tokens
           //Change access token to 5min later
           const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-            expiresIn: 30,
+            expiresIn: 40,
           });
           const refreshToken = jwt.sign(
             payload,
@@ -68,6 +68,7 @@ const loginUser = async (req, res) => {
           res
             .status(200)
             .json({ message: "Logged in!", accessToken: accessToken });
+          // accessToken goes to client
         } else {
           res.status(403).send("Email or password does not match!");
         }
