@@ -9,14 +9,18 @@ const refreshToken = async (req, res) => {
   if (!cookies?.jwt) return res.status(401).send("No cookies");
   const refreshToken = cookies.jwt;
   try {
-    //find user with same ref token
+    //find user with same refresh token in DB
     const user = await User.findOne({
       where: { refreshToken: refreshToken },
     });
-    if (!user) return res.status(403).send("Not authorized");
+    if (!user)
+      return res
+        .status(403)
+        .send("Not authorized, no user user with matching ref token found");
 
     jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, decoded) => {
-      if (err || user.id !== decoded.id) return res.sendStatus(403);
+      if (err || user.id !== decoded.id)
+        return res.status(403).send("Ref token verification failed");
       // changed here to match payload in user controller
       const payload = {
         id: decoded.id,
@@ -24,7 +28,7 @@ const refreshToken = async (req, res) => {
         role: decoded.role,
       };
       const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-        expiresIn: 40,
+        expiresIn: 10,
       });
       // CHANGE ABOVE TO 15 min
       // HERE we are sending new access token to client

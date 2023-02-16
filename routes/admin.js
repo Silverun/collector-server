@@ -15,4 +15,14 @@ router.post("/promote", async (req, res) => {
   res.send(`User promoted`);
 });
 
+router.get("/users", verifyJWT, verifyRole(2), async (req, res) => {
+  try {
+    const users = await User.findAll();
+    // console.log(users);
+    res.status(200).send({ users });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 module.exports = router;

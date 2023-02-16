@@ -13,6 +13,7 @@ const sequelize = new Sequelize({
       rejectUnauthorized: true,
     },
   },
+  logging: false,
 });
 
 const SyncAllModels = async () => {

@@ -22,7 +22,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-//maybe change route
+//maybe change route? protected?
 app.get("/refresh", refreshToken);
 
 //app.use(verifyJWT) for all router below that are not public
