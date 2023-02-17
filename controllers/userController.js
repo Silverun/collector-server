@@ -52,13 +52,13 @@ const loginUser = async (req, res) => {
           // Create Tokens
           //Change access token to 5min later
           const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-            expiresIn: 10,
+            expiresIn: 600,
           });
           const refreshToken = jwt.sign(
             payload,
             process.env.JWT_REFRESH_SECRET,
             {
-              expiresIn: 16,
+              expiresIn: "24h",
             }
           );
           // store refresh token in DB maybe hash it
@@ -90,7 +90,7 @@ const loginUser = async (req, res) => {
 const logoutUser = async (req, res) => {
   // on client also delete teh access Token
   const cookies = req.cookies;
-  console.log(req.cookies);
+  // console.log(req.cookies);
 
   if (!cookies?.jwt) return res.status(204).send("No one to logout");
   const refreshToken = cookies.jwt;

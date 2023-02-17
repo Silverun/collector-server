@@ -28,11 +28,16 @@ const refreshToken = async (req, res) => {
         role: decoded.role,
       };
       const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-        expiresIn: 10,
+        expiresIn: 600,
       });
       // CHANGE ABOVE TO 15 min
       // HERE we are sending new access token to client
-      res.json({ accessToken });
+      res.json({
+        accessToken,
+        role: decoded.role,
+        id: decoded.id,
+        username: decoded.username,
+      });
     });
   } catch (error) {
     res.status(400).send("Something went wrong");
