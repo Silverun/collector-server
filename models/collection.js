@@ -38,6 +38,13 @@ const Collection = sequelize.define("Collection", {
       notEmpty: false,
     },
   },
+  authorId: {
+    type: DataTypes.INTEGER(),
+    allowNull: false,
+    validate: {
+      notEmpty: false,
+    },
+  },
 });
 
 module.exports = Collection;
