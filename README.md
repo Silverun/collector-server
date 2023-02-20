@@ -10,3 +10,7 @@ For production:
 - Check with credentials - true for cookies with every request on axios config
 - Check where we need to REFRESH access token manually with /refresh. By default its only on login.
 - Db gets new refresh token only on login now and not
+
+FRONTEND:
+
+- Add validation to create collection form

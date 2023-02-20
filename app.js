@@ -2,14 +2,12 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
-const { SyncAllModels } = require("./models/index");
+const { SyncAllModels, SyncModel } = require("./models/index");
 const userRoute = require("./routes/user");
 const collectionRoute = require("./routes/collection");
 const adminRoute = require("./routes/admin");
 const refreshToken = require("./controllers/refreshTokenController");
-// require("./middleware/passport");
-// const { User } = require("./models/user");
-// const sequelize = require("./models/index");
+const Collection = require("./models/collection");
 
 const app = express();
 //maybe user config approach to set separate function options for cors but this works
@@ -36,6 +34,11 @@ const port = process.env.PORT;
 app.get("/sync", async (req, res) => {
   await SyncAllModels();
   res.sendStatus(200);
+});
+
+app.get("/sync/collection", async (req, res) => {
+  await Collection.sync({ alter: true });
+  res.status(200).send("Collection synced");
 });
 
 app.listen(port, () => {
