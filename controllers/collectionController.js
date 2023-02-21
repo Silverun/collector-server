@@ -11,7 +11,7 @@ const imagekit = new ImageKit({
 const createCollection = async (req, res) => {
   const { name, description, theme, authorId, extraFields } = req.body;
   const image = req?.file?.buffer;
-  console.log(image);
+  // console.log(image);
   let imageUrl;
 
   try {
@@ -47,6 +47,23 @@ const createCollection = async (req, res) => {
   }
 };
 
+const deleteCollection = async (req, res) => {
+  console.log(req.body.id);
+  const id = req.body.id;
+
+  try {
+    await Collection.destroy({
+      where: {
+        id: id,
+      },
+    });
+    res.status(200).send("Deleted collection");
+  } catch (error) {
+    res.status(404).send(error);
+  }
+};
+
 module.exports = {
   createCollection,
+  deleteCollection,
 };

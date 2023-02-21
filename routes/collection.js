@@ -5,14 +5,12 @@ const multer = require("multer");
 const upload = multer();
 // Put protected routes
 
-router.get("/getmycollection", (req, res) => {
-  res.send("You are viewing collection " + req.params.id);
-});
-
 router.post(
   "/new",
   upload.single("image"),
   collectionController.createCollection
 );
+
+router.post("/delete", collectionController.deleteCollection);
 
 module.exports = router;

@@ -9,8 +9,11 @@ router.post("/register", userController.createUser, userController.loginUser);
 router.get("/logout", userController.logoutUser);
 // Check where verify goes
 // verify JWT sets req to have
-router.get("/:id", verifyJWT, verifyRole(1, 2), (req, res) => {
-  res.send("Getting all your collections, user: " + req.params.id);
-});
+router.get(
+  "/:id",
+  verifyJWT,
+  verifyRole(1, 2),
+  userController.getUserCollections
+);
 
 module.exports = router;

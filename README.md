@@ -14,5 +14,8 @@ For production:
 FRONTEND:
 
 - Add validation to create collection form
+- Reformat all incoming images to 80 px
+- Check axiosPrivate instances are using useAxios hook
+-
 
 https://imagekit.io/

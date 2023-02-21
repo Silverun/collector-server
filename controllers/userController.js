@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { SequelizeScopeError, ValidationError } = require("sequelize");
 const cookiesOpts = require("../config/cookies");
+const Collection = require("../models/collection");
 require("dotenv").config;
 
 const createUser = async (req, res, next) => {
@@ -115,8 +116,19 @@ const logoutUser = async (req, res) => {
   }
 };
 
+const getUserCollections = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const result = await Collection.findAll({ where: { authorId: id } });
+    res.status(200).send({ result });
+  } catch (error) {
+    res.status(404).send(error);
+  }
+};
+
 module.exports = {
   loginUser,
   createUser,
   logoutUser,
+  getUserCollections,
 };
