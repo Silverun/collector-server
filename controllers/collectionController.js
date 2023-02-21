@@ -10,8 +10,9 @@ const imagekit = new ImageKit({
 
 const createCollection = async (req, res) => {
   const { name, description, theme, authorId, extraFields } = req.body;
-  const image = req?.file.buffer;
+  const image = req?.file?.buffer;
   console.log(image);
+  let imageUrl;
 
   try {
     if (image) {
@@ -26,21 +27,22 @@ const createCollection = async (req, res) => {
           },
         ],
       });
-
-      console.log(response.url);
+      imageUrl = response.url;
+      console.log(imageUrl);
     }
 
-    // const result = await Collection.create({
-    //   image,
-    //   name,
-    //   description,
-    //   theme,
-    //   extraFields,
-    //   authorId,
-    // });
+    const result = await Collection.create({
+      imageUrl: imageUrl || "../img/cltr_logo_100.png",
+      name,
+      description,
+      theme,
+      extraFields,
+      authorId,
+    });
 
-    res.send("ok");
+    res.status(200).send("Collection added");
   } catch (error) {
+    console.log(error);
     res.status(404).send(error);
   }
 };
