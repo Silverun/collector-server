@@ -11,6 +11,12 @@ router.post(
   collectionController.createCollection
 );
 
+router.post(
+  "/edit",
+  upload.single("image"),
+  collectionController.editCollection
+);
+
 router.post("/delete", collectionController.deleteCollection);
 
 module.exports = router;
