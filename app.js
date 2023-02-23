@@ -8,6 +8,8 @@ const collectionRoute = require("./routes/collection");
 const adminRoute = require("./routes/admin");
 const refreshToken = require("./controllers/refreshTokenController");
 const Collection = require("./models/collection");
+const verifyJWT = require("./middleware/verifyJWT");
+const verifyRole = require("./middleware/verifyRole");
 
 const app = express();
 //maybe user config approach to set separate function options for cors but this works

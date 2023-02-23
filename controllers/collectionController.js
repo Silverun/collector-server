@@ -3,10 +3,21 @@ const Collection = require("../models/collection");
 const ImageKit = require("imagekit");
 
 const imagekit = new ImageKit({
-  publicKey: "public_3oUgXC8q1MVP+De9xmkwQbWbdls=",
-  privateKey: "private_QXtGmcrPc83s8pcHe2miEXCAQxo=",
-  urlEndpoint: "https://ik.imagekit.io/tonykay",
+  publicKey: process.env.IMAGE_KIT_PUBLIC_KEY,
+  privateKey: process.env.IMAGE_KIT_PRIVATE_KEY,
+  urlEndpoint: process.env.IMAGE_KIT_URL,
 });
+
+const getSoloCollection = async (req, res) => {
+  const collectionId = req.params.col_id;
+  // console.log(req.params.col_id);
+  try {
+    const result = await Collection.findOne({ where: { id: collectionId } });
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(404).send(error);
+  }
+};
 
 const createCollection = async (req, res) => {
   const { name, description, theme, authorId, extraFields } = req.body;
@@ -124,4 +135,5 @@ module.exports = {
   createCollection,
   deleteCollection,
   editCollection,
+  getSoloCollection,
 };

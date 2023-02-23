@@ -2,8 +2,11 @@ const express = require("express");
 const router = express.Router();
 const collectionController = require("../controllers/collectionController");
 const multer = require("multer");
+const verifyJWT = require("../middleware/verifyJWT");
 const upload = multer();
 // Put protected routes
+
+router.get("/:col_id", collectionController.getSoloCollection);
 
 router.post(
   "/new",
