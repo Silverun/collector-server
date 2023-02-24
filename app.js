@@ -9,6 +9,8 @@ const itemRoute = require("./routes/item");
 const adminRoute = require("./routes/admin");
 const refreshToken = require("./controllers/refreshTokenController");
 const Collection = require("./models/collection");
+const Item = require("./models/item");
+const Tag = require("./models/tag");
 const verifyJWT = require("./middleware/verifyJWT");
 const verifyRole = require("./middleware/verifyRole");
 
@@ -35,6 +37,7 @@ app.use("/admin", adminRoute);
 
 const port = process.env.PORT;
 
+// Remove these after
 app.get("/sync", async (req, res) => {
   await SyncAllModels();
   res.sendStatus(200);
@@ -43,6 +46,16 @@ app.get("/sync", async (req, res) => {
 app.get("/sync/collection", async (req, res) => {
   await Collection.sync({ alter: true });
   res.status(200).send("Collection synced");
+});
+
+app.get("/sync/item", async (req, res) => {
+  try {
+    await Item.sync({ alter: true });
+    // await Item.sync();
+    res.status(200).send("Item synced");
+  } catch (error) {
+    res.status(404).send(error);
+  }
 });
 
 app.listen(port, () => {

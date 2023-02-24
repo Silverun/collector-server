@@ -15,12 +15,20 @@ const Item = sequelize.define("Item", {
     validate: {
       notEmpty: true,
     },
+    get() {
+      const rawValue = this.getDataValue("tags");
+      return JSON.parse(rawValue);
+    },
   },
   fieldsData: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.TEXT,
     allowNull: false,
     validate: {
       notEmpty: true,
+    },
+    get() {
+      const rawValue = this.getDataValue("fieldsData");
+      return JSON.parse(rawValue);
     },
   },
   collectionId: {
