@@ -16,6 +16,6 @@ FRONTEND:
 - Add validation to create collection form
 - Reformat all incoming images to 80 px
 - Check axiosPrivate instances are using useAxios hook
--
+- Check all id on forms that are not the same
 
 https://imagekit.io/

@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const { SyncAllModels, SyncModel } = require("./models/index");
 const userRoute = require("./routes/user");
 const collectionRoute = require("./routes/collection");
+const itemRoute = require("./routes/item");
 const adminRoute = require("./routes/admin");
 const refreshToken = require("./controllers/refreshTokenController");
 const Collection = require("./models/collection");
@@ -29,6 +30,7 @@ app.get("/refresh", refreshToken);
 
 app.use("/user", userRoute);
 app.use("/collection", collectionRoute);
+app.use("/item", itemRoute);
 app.use("/admin", adminRoute);
 
 const port = process.env.PORT;
