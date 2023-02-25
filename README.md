@@ -17,5 +17,7 @@ FRONTEND:
 - Reformat all incoming images to 80 px
 - Check axiosPrivate instances are using useAxios hook
 - Check all id on forms that are not the same
+- when you delete collection u ALSO delete all items inside it
+- validate delete collection
 
 https://imagekit.io/

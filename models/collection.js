@@ -30,6 +30,10 @@ const Collection = sequelize.define("Collection", {
     validate: {
       notEmpty: true,
     },
+    get() {
+      const rawValue = this.getDataValue("extraFields");
+      return JSON.parse(rawValue);
+    },
   },
   imageUrl: {
     type: DataTypes.STRING(255),
