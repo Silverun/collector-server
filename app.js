@@ -57,6 +57,15 @@ app.get("/sync/item", async (req, res) => {
     res.status(404).send(error);
   }
 });
+app.get("/sync/tag", async (req, res) => {
+  try {
+    await Tag.sync({ alter: true });
+    // await Item.sync();
+    res.status(200).send("Tag synced");
+  } catch (error) {
+    res.status(404).send(error);
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
