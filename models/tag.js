@@ -16,6 +16,13 @@ const Tag = sequelize.define("Tag", {
       notEmpty: true,
     },
   },
+  itemId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
 });
 
 module.exports = Tag;

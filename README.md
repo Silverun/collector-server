@@ -21,3 +21,6 @@ FRONTEND:
 - validate delete collection
 
 https://imagekit.io/
+
+React Tag Autocomplete
+https://github.com/i-like-robots/react-tag-autocomplete#ariaErrorMessage-optional
