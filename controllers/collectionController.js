@@ -131,9 +131,19 @@ const deleteCollection = async (req, res) => {
   }
 };
 
+const getTags = async (req, res) => {
+  console.log(req);
+  try {
+    res.status(200).send("Tags");
+  } catch (error) {
+    res.status(404).send(error);
+  }
+};
+
 module.exports = {
   createCollection,
   deleteCollection,
   editCollection,
   getSoloCollection,
+  getTags,
 };
