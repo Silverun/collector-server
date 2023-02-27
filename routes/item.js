@@ -8,6 +8,7 @@ router.get("/tags", itemController.getAllTags);
 router.get("/:col_id", itemController.getCollectionItems);
 
 router.post("/new", itemController.createItem);
+router.post("/:item_id/update", itemController.updateItem);
 router.post("/:id", itemController.getItem);
 
 // Check where verify goes

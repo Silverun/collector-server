@@ -11,6 +11,15 @@ const createItem = async (req, res) => {
   }
 };
 
+const updateItem = async (req, res) => {
+  try {
+    await Item.update(req.body, { where: { id: req.params.item_id } });
+    res.status(200).send("Item updated");
+  } catch (error) {
+    res.status(404).send(error);
+  }
+};
+
 const getCollectionItems = async (req, res) => {
   const collectionId = req.params.col_id;
   // console.log(req.params.col_id);
@@ -47,4 +56,5 @@ module.exports = {
   getCollectionItems,
   getItem,
   getAllTags,
+  updateItem,
 };
