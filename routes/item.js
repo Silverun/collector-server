@@ -5,9 +5,15 @@ const verifyRole = require("../middleware/verifyRole");
 const verifyJWT = require("../middleware/verifyJWT");
 
 router.get("/tags", itemController.getAllTags);
+// router.get("/likes", itemController.getAllLikes);
 router.get("/:col_id", itemController.getCollectionItems);
+router.get("/:item_id/getcomments", itemController.getItemComments);
+router.get("/:item_id/getlikes", itemController.getItemLikes);
+router.get("/:item_id/removelike/:user_id", itemController.removeItemLike);
 
 router.post("/new", itemController.createItem);
+router.post("/addcoment", itemController.addItemComment);
+router.post("/addlike", itemController.addItemLike);
 router.post("/:item_id/update", itemController.updateItem);
 router.post("/:id", itemController.getItem);
 

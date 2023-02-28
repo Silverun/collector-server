@@ -10,9 +10,11 @@ const adminRoute = require("./routes/admin");
 const refreshToken = require("./controllers/refreshTokenController");
 const Collection = require("./models/collection");
 const Item = require("./models/item");
+const Like = require("./models/like");
 const Tag = require("./models/tag");
 const verifyJWT = require("./middleware/verifyJWT");
 const verifyRole = require("./middleware/verifyRole");
+const Comment = require("./models/comment");
 
 const app = express();
 //maybe user config approach to set separate function options for cors but this works
@@ -51,8 +53,23 @@ app.get("/sync/collection", async (req, res) => {
 app.get("/sync/item", async (req, res) => {
   try {
     await Item.sync({ alter: true });
-    // await Item.sync();
     res.status(200).send("Item synced");
+  } catch (error) {
+    res.status(404).send(error);
+  }
+});
+app.get("/sync/comment", async (req, res) => {
+  try {
+    await Comment.sync({ alter: true });
+    res.status(200).send("Comment synced");
+  } catch (error) {
+    res.status(404).send(error);
+  }
+});
+app.get("/sync/like", async (req, res) => {
+  try {
+    await Like.sync({ alter: true });
+    res.status(200).send("Like synced");
   } catch (error) {
     res.status(404).send(error);
   }
