@@ -19,6 +19,15 @@ const getSoloCollection = async (req, res) => {
   }
 };
 
+const getAllCollections = async (req, res) => {
+  try {
+    const result = await Collection.findAll();
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(404).send(error);
+  }
+};
+
 const createCollection = async (req, res) => {
   const { name, description, theme, authorId, extraFields } = req.body;
   const image = req?.file?.buffer;
@@ -116,7 +125,6 @@ const editCollection = async (req, res) => {
 };
 
 const deleteCollection = async (req, res) => {
-  console.log(req.body.id);
   const id = req.body.id;
 
   try {
@@ -146,4 +154,5 @@ module.exports = {
   editCollection,
   getSoloCollection,
   getTags,
+  getAllCollections,
 };
