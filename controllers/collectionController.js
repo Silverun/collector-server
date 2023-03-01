@@ -1,5 +1,7 @@
 require("dotenv").config;
 const Collection = require("../models/collection");
+const Item = require("../models/item");
+const Comment = require("../models/comment");
 const ImageKit = require("imagekit");
 
 const imagekit = new ImageKit({
@@ -126,14 +128,24 @@ const editCollection = async (req, res) => {
 
 const deleteCollection = async (req, res) => {
   const id = req.body.id;
-
   try {
+    const colItems = await Item.findAll({ where: { collectionId: id } });
+    //Clear all comments of all collection items
+    colItems.forEach(async (item) => {
+      const itemComments = await Comment.findAll({
+        where: { itemId: item.id },
+      });
+      itemComments.forEach(async (comment) => await comment.destroy());
+    });
+    // Clear all items from collection
+    colItems.forEach(async (item) => await item.destroy());
+    // Then delete collection itself
     await Collection.destroy({
       where: {
         id: id,
       },
     });
-    res.status(200).send("Deleted collection");
+    res.status(200).send("Deleted collection, items, comments");
   } catch (error) {
     res.status(404).send(error);
   }

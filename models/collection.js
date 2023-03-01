@@ -1,4 +1,4 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, INTEGER } = require("sequelize");
 const { sequelize } = require("./index");
 
 const Collection = sequelize.define("Collection", {

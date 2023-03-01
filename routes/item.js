@@ -15,6 +15,7 @@ router.post("/new", itemController.createItem);
 router.post("/addcoment", itemController.addItemComment);
 router.post("/addlike", itemController.addItemLike);
 router.post("/:item_id/update", itemController.updateItem);
+router.post("/:item_id/delete", itemController.deleteItem);
 router.post("/:id", itemController.getItem);
 
 // Check where verify goes

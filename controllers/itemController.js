@@ -1,12 +1,12 @@
 const Item = require("../models/item");
 const Comment = require("../models/comment");
 const Like = require("../models/like");
+const Collection = require("../models/collection");
 
 const createItem = async (req, res) => {
-  //   console.log(req.body);
-
   try {
-    await Item.create(req.body);
+    const result = await Item.create(req.body);
+    console.log("ITEM CREATED ID", result.id);
     res.status(200).send("Item created");
   } catch (error) {
     res.status(404).send(error);
@@ -17,6 +17,22 @@ const updateItem = async (req, res) => {
   try {
     await Item.update(req.body, { where: { id: req.params.item_id } });
     res.status(200).send("Item updated");
+  } catch (error) {
+    res.status(404).send(error);
+  }
+};
+
+const deleteItem = async (req, res) => {
+  try {
+    const foundItem = await Item.findOne({ where: { id: req.params.item_id } });
+    const itemComments = await Comment.findAll({
+      where: { itemId: foundItem.id },
+    });
+    itemComments.forEach(async (comment) => await comment.destroy());
+    await Item.destroy({
+      where: { id: req.params.item_id },
+    });
+    res.status(200).send("Item deleted");
   } catch (error) {
     res.status(404).send(error);
   }
@@ -114,4 +130,5 @@ module.exports = {
   addItemLike,
   removeItemLike,
   getItemLikes,
+  deleteItem,
 };
