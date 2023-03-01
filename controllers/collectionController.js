@@ -30,6 +30,30 @@ const getAllCollections = async (req, res) => {
   }
 };
 
+const getSortedCollections = async (req, res) => {
+  try {
+    let result = [];
+    const allCollections = await Collection.findAll();
+    await Promise.all(
+      allCollections.map(async (col) => {
+        const colItems = await Item.findAll({
+          where: { collectionId: col.id },
+        });
+        result.push({
+          id: col.id,
+          name: col.name,
+          img: col.imageUrl,
+          itemCount: colItems.length,
+        });
+      })
+    );
+    const sorted = result.sort((a, b) => b.itemCount - a.itemCount);
+    res.status(200).send(sorted);
+  } catch (error) {
+    res.status(404).send(error);
+  }
+};
+
 const createCollection = async (req, res) => {
   const { name, description, theme, authorId, extraFields } = req.body;
   const image = req?.file?.buffer;
@@ -167,4 +191,5 @@ module.exports = {
   getSoloCollection,
   getTags,
   getAllCollections,
+  getSortedCollections,
 };

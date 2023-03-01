@@ -7,6 +7,7 @@ const upload = multer();
 // Put protected routes
 
 router.get("/getall", collectionController.getAllCollections);
+router.get("/getsorted", collectionController.getSortedCollections);
 router.get("/:col_id", collectionController.getSoloCollection);
 
 router.post(

@@ -60,7 +60,7 @@ const getItem = async (req, res) => {
   }
 };
 
-const getAllTags = async (req, res) => {
+const getAllItems = async (req, res) => {
   try {
     const result = await Item.findAll();
     res.status(200).send(result);
@@ -123,7 +123,7 @@ module.exports = {
   createItem,
   getCollectionItems,
   getItem,
-  getAllTags,
+  getAllItems,
   updateItem,
   addItemComment,
   getItemComments,
