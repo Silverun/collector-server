@@ -51,6 +51,37 @@ const getCollectionItems = async (req, res) => {
   }
 };
 
+const getCloudTags = async (req, res) => {
+  try {
+    const allItems = await Item.findAll();
+
+    const data = [
+      { value: "JavaScript", count: 38 },
+      { value: "React", count: 30 },
+    ];
+
+    const allTags = [];
+    allItems.forEach((item) => {
+      item.tags.forEach((tag) => allTags.push(tag.label));
+    });
+
+    const result = {};
+    allTags.forEach((tag) => (result[tag] = (result[tag] || 0) + 1));
+
+    const endResult = [];
+    for (const key in result) {
+      endResult.push({
+        value: key,
+        count: result[key],
+      });
+    }
+
+    res.status(200).send(endResult);
+  } catch (error) {
+    res.status(404).send(error);
+  }
+};
+
 const getItem = async (req, res) => {
   try {
     const result = await Item.findOne({ where: { id: req.params.id } });
@@ -131,4 +162,5 @@ module.exports = {
   removeItemLike,
   getItemLikes,
   deleteItem,
+  getCloudTags,
 };
