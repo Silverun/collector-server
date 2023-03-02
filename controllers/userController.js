@@ -8,11 +8,9 @@ require("dotenv").config;
 
 const createUser = async (req, res, next) => {
   const { username, email, password } = req.body;
-
   if (username && password && email) {
     try {
       const hashPass = await bcrypt.hash(password, 7);
-
       const result = await User.create({
         userName: username,
         userEmail: email,
@@ -20,8 +18,6 @@ const createUser = async (req, res, next) => {
         userRole: 1,
         refreshToken: "none",
       });
-
-      // res.status(200).send("User created");
       next();
     } catch (err) {
       if (err instanceof ValidationError) {
@@ -37,7 +33,6 @@ const createUser = async (req, res, next) => {
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-
   if (email && password) {
     try {
       const user = await User.findOne({
@@ -50,8 +45,6 @@ const loginUser = async (req, res) => {
             username: user.userName,
             role: user.userRole,
           };
-          // Create Tokens
-          //Change access token to 5min later
           const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
             expiresIn: 600,
           });
@@ -62,9 +55,7 @@ const loginUser = async (req, res) => {
               expiresIn: "24h",
             }
           );
-          // store refresh token in DB maybe hash it
           await user.update({ refreshToken: refreshToken });
-          // send cookie with refresh token to client CHECK OPTIONS!!!
           res.cookie("jwt", refreshToken, cookiesOpts);
           res.status(200).json({
             message: "Logged in!",
@@ -73,7 +64,6 @@ const loginUser = async (req, res) => {
             id: user.id,
             username: user.userName,
           });
-          // accessToken goes to client
         } else {
           res.status(403).send("Email or password does not match!");
         }
@@ -81,7 +71,7 @@ const loginUser = async (req, res) => {
         res.status(400).send("This user does not exist!");
       }
     } catch (err) {
-      console.log(err);
+      res.send(404).send(err);
     }
   } else {
     res.status(400).send("Please provide credentials");
@@ -89,9 +79,7 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-  // on client also delete teh access Token
   const cookies = req.cookies;
-  // console.log(req.cookies);
 
   if (!cookies?.jwt) return res.status(204).send("No one to logout");
   const refreshToken = cookies.jwt;
