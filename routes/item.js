@@ -19,7 +19,7 @@ router.post("/:item_id/update", itemController.updateItem);
 router.post("/:item_id/delete", itemController.deleteItem);
 router.post("/:id", itemController.getItem);
 
-// Check where verify goes
+// Check where verify goesasdad
 // verify JWT sets req to have
 
 module.exports = router;
