@@ -21,7 +21,7 @@ const app = express();
 //maybe user config approach to set separate function options for cors but this works
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://cltr.netlify.app/",
     credentials: true,
   })
 );
