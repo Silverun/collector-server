@@ -57,14 +57,12 @@ const getSortedCollections = async (req, res) => {
 const createCollection = async (req, res) => {
   const { name, description, theme, authorId, extraFields } = req.body;
   const image = req?.file?.buffer;
-  // console.log(image);
   let imageUrl;
-
   try {
     if (image) {
       const response = await imagekit.upload({
-        file: image, //required
-        fileName: req?.file.originalname, //required
+        file: image,
+        fileName: req?.file.originalname,
         extensions: [
           {
             name: "google-auto-tagging",
@@ -74,9 +72,7 @@ const createCollection = async (req, res) => {
         ],
       });
       imageUrl = response.url;
-      console.log(imageUrl);
     }
-
     const result = await Collection.create({
       imageUrl: imageUrl || "../img/cltr_logo_100.png",
       name,
@@ -85,10 +81,8 @@ const createCollection = async (req, res) => {
       extraFields,
       authorId,
     });
-
     res.status(200).send("Collection added");
   } catch (error) {
-    console.log(error);
     res.status(404).send(error);
   }
 };
@@ -115,8 +109,6 @@ const editCollection = async (req, res) => {
         ],
       });
       imageUrl = response.url;
-      console.log(imageUrl);
-      // res.send(imageUrl);
     }
 
     if (image && req.file.originalname === "blob") {
