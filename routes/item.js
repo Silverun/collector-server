@@ -3,10 +3,10 @@ const router = express.Router();
 const itemController = require("../controllers/itemController");
 const verifyRole = require("../middleware/verifyRole");
 const verifyJWT = require("../middleware/verifyJWT");
+const verifyStatus = require("../middleware/verifyStatus");
 
 router.get("/getall", itemController.getAllItems);
 router.get("/gettags", itemController.getCloudTags);
-// router.get("/likes", itemController.getAllLikes);
 router.get("/:col_id", itemController.getCollectionItems);
 router.get("/:item_id/getcomments", itemController.getItemComments);
 router.get("/:item_id/getlikes", itemController.getItemLikes);

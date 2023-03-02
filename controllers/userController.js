@@ -114,9 +114,21 @@ const getUserCollections = async (req, res) => {
   }
 };
 
+const checkBlocked = async (req, res) => {
+  console.log(req.body);
+  try {
+    const user = await User.findOne({ where: { id: req.body.id } });
+
+    res.status(200).send(user.userStatus);
+  } catch (error) {
+    res.status(404).send(error);
+  }
+};
+
 module.exports = {
   loginUser,
   createUser,
   logoutUser,
   getUserCollections,
+  checkBlocked,
 };

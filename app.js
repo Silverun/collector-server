@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
-const { SyncAllModels, SyncModel } = require("./models/index");
+const { SyncAllModels } = require("./models/index");
 const userRoute = require("./routes/user");
 const collectionRoute = require("./routes/collection");
 const itemRoute = require("./routes/item");
@@ -11,9 +11,10 @@ const refreshToken = require("./controllers/refreshTokenController");
 const Collection = require("./models/collection");
 const Item = require("./models/item");
 const Like = require("./models/like");
-const Tag = require("./models/tag");
+const User = require("./models/user");
 const verifyJWT = require("./middleware/verifyJWT");
 const verifyRole = require("./middleware/verifyRole");
+const verifyStatus = require("./middleware/verifyStatus");
 const Comment = require("./models/comment");
 
 const app = express();
@@ -29,9 +30,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 //maybe change route? protected?
 app.get("/refresh", refreshToken);
-
 //app.use(verifyJWT) for all router below that are not public
-
+// app.use(verifyStatus);
 app.use("/user", userRoute);
 app.use("/collection", collectionRoute);
 app.use("/item", itemRoute);
@@ -48,6 +48,11 @@ app.get("/sync", async (req, res) => {
 app.get("/sync/collection", async (req, res) => {
   await Collection.sync({ alter: true });
   res.status(200).send("Collection synced");
+});
+
+app.get("/sync/user", async (req, res) => {
+  await User.sync({ alter: true });
+  res.status(200).send("User synced");
 });
 
 app.get("/sync/item", async (req, res) => {

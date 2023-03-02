@@ -38,6 +38,14 @@ const User = sequelize.define("User", {
       notEmpty: false,
     },
   },
+  userStatus: {
+    type: DataTypes.STRING(255),
+    defaultValue: "active",
+    allowNull: false,
+    validate: {
+      notEmpty: false,
+    },
+  },
 });
 // ADD ROLES
 // hashed string length?
