@@ -4,7 +4,6 @@ const collectionController = require("../controllers/collectionController");
 const multer = require("multer");
 const verifyJWT = require("../middleware/verifyJWT");
 const upload = multer();
-// Put protected routes
 
 router.get("/getall", collectionController.getAllCollections);
 router.get("/getsorted", collectionController.getSortedCollections);

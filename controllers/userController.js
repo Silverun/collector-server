@@ -84,19 +84,14 @@ const logoutUser = async (req, res) => {
   if (!cookies?.jwt) return res.status(204).send("No one to logout");
   const refreshToken = cookies.jwt;
   try {
-    //find user with same ref token
     const user = await User.findOne({
       where: { refreshToken: refreshToken },
     });
     if (!user) {
-      // CHECK COOKIE BEFORE DEPLOY
       res.clearCookie("jwt", cookiesOpts);
-
       return res.status(204).send("Cookie cleared");
     }
-    //delete ref token in db
     await user.update({ refreshToken: "none" });
-    // CHECK OPTIONS ---- add secure: true
     res.clearCookie("jwt", cookiesOpts);
     res.status(204).send("User logged out, ref token in DB and cookie cleared");
   } catch (error) {
@@ -115,10 +110,8 @@ const getUserCollections = async (req, res) => {
 };
 
 const checkBlocked = async (req, res) => {
-  console.log(req.body);
   try {
     const user = await User.findOne({ where: { id: req.body.id } });
-
     res.status(200).send(user.userStatus);
   } catch (error) {
     res.status(404).send(error);

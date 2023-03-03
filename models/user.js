@@ -47,7 +47,5 @@ const User = sequelize.define("User", {
     },
   },
 });
-// ADD ROLES
-// hashed string length?
 
 module.exports = User;

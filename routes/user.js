@@ -10,8 +10,7 @@ router.post("/register", userController.createUser, userController.loginUser);
 router.post("/checkblocked", userController.checkBlocked);
 
 router.get("/logout", userController.logoutUser);
-// Check where verify goes
-// verify JWT sets req to have
+
 router.get(
   "/:id",
   verifyJWT,

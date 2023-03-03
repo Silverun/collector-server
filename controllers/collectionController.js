@@ -12,7 +12,6 @@ const imagekit = new ImageKit({
 
 const getSoloCollection = async (req, res) => {
   const collectionId = req.params.col_id;
-  // console.log(req.params.col_id);
   try {
     const result = await Collection.findOne({ where: { id: collectionId } });
     res.status(200).send(result);
@@ -57,14 +56,12 @@ const getSortedCollections = async (req, res) => {
 const createCollection = async (req, res) => {
   const { name, description, theme, authorId, extraFields } = req.body;
   const image = req?.file?.buffer;
-  // console.log(image);
   let imageUrl;
-
   try {
     if (image) {
       const response = await imagekit.upload({
-        file: image, //required
-        fileName: req?.file.originalname, //required
+        file: image,
+        fileName: req?.file.originalname,
         extensions: [
           {
             name: "google-auto-tagging",
@@ -74,9 +71,7 @@ const createCollection = async (req, res) => {
         ],
       });
       imageUrl = response.url;
-      console.log(imageUrl);
     }
-
     const result = await Collection.create({
       imageUrl: imageUrl || "../img/cltr_logo_100.png",
       name,
@@ -85,10 +80,8 @@ const createCollection = async (req, res) => {
       extraFields,
       authorId,
     });
-
     res.status(200).send("Collection added");
   } catch (error) {
-    console.log(error);
     res.status(404).send(error);
   }
 };
@@ -97,15 +90,12 @@ const editCollection = async (req, res) => {
   const { name, description, theme, authorId, extraFields, collectionId } =
     req.body;
   const image = req?.file?.buffer;
-  console.log("image ", req?.file);
-  console.log(req.body);
-
   let imageUrl;
   try {
     if (image && req.file.originalname !== "blob") {
       const response = await imagekit.upload({
-        file: image, //required
-        fileName: req?.file.originalname, //required
+        file: image,
+        fileName: req?.file.originalname,
         extensions: [
           {
             name: "google-auto-tagging",
@@ -115,10 +105,7 @@ const editCollection = async (req, res) => {
         ],
       });
       imageUrl = response.url;
-      console.log(imageUrl);
-      // res.send(imageUrl);
     }
-
     if (image && req.file.originalname === "blob") {
       await Collection.update(
         {
@@ -132,7 +119,6 @@ const editCollection = async (req, res) => {
       );
       return res.status(200).send("Collection updated, image preserved");
     }
-
     await Collection.update(
       {
         imageUrl: imageUrl || "../img/cltr_logo_100.png",
@@ -154,16 +140,13 @@ const deleteCollection = async (req, res) => {
   const id = req.body.id;
   try {
     const colItems = await Item.findAll({ where: { collectionId: id } });
-    //Clear all comments of all collection items
     colItems.forEach(async (item) => {
       const itemComments = await Comment.findAll({
         where: { itemId: item.id },
       });
       itemComments.forEach(async (comment) => await comment.destroy());
     });
-    // Clear all items from collection
     colItems.forEach(async (item) => await item.destroy());
-    // Then delete collection itself
     await Collection.destroy({
       where: {
         id: id,
@@ -176,7 +159,6 @@ const deleteCollection = async (req, res) => {
 };
 
 const getTags = async (req, res) => {
-  console.log(req);
   try {
     res.status(200).send("Tags");
   } catch (error) {

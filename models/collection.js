@@ -10,7 +10,6 @@ const Collection = sequelize.define("Collection", {
     },
   },
   description: {
-    // consider changing type
     type: DataTypes.STRING(255),
     allowNull: false,
     validate: {
