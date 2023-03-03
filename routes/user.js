@@ -15,7 +15,6 @@ router.get(
   "/:id",
   verifyJWT,
   verifyRole(1, 2),
-  verifyStatus,
   userController.getUserCollections
 );
 
