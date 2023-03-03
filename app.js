@@ -14,7 +14,7 @@ const verifyStatus = require("./middleware/verifyStatus");
 const app = express();
 app.use(
   cors({
-    origin: "https://colltest.netlify.app/",
+    origin: "https://colltest.netlify.app",
     credentials: true,
   })
 );
