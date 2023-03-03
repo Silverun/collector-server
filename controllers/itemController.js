@@ -128,6 +128,7 @@ const addItemComment = async (req, res) => {
     res.status(404).send(error);
   }
 };
+
 const getItemComments = async (req, res) => {
   try {
     const result = await Comment.findAll({
