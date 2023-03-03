@@ -3,8 +3,9 @@ const cookiesOpts = {
   maxAge: 24 * 60 * 60 * 1000,
   secure: true,
   sameSite: "None",
-  domain: ".herokuapp.com",
+  domain: "colltest.herokuapp.com",
   // Lax, Strict
+  // colltest.herokuapp.com
 };
 
 module.exports = cookiesOpts;
