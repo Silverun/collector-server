@@ -6,7 +6,8 @@ const verifyStatus = async (req, res, next) => {
   try {
     const user = await User.findOne({ where: { id: userId } });
     if (user.userStatus === "blocked") {
-      return res.status(401).send("This user is blocked");
+      res.status(401).send("This user is blocked");
+      return;
     }
   } catch (error) {
     res
