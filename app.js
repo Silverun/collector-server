@@ -14,7 +14,10 @@ const verifyStatus = require("./middleware/verifyStatus");
 const app = express();
 app.use(
   cors({
-    origin: "https://cltrtest.netlify.app",
+    origin: [
+      "https://cltrtest.netlify.app",
+      "https://cltr-render.onrender.com",
+    ],
     credentials: true,
   })
 );
