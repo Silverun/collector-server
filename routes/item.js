@@ -13,13 +13,12 @@ router.get("/:col_id", itemController.getCollectionItems);
 router.get("/:item_id/getcomments", itemController.getItemComments);
 router.get("/:item_id/getlikes", itemController.getItemLikes);
 
-router.post("/:id", itemController.getItem);
-
 router.get("/:item_id/removelike/:user_id", itemController.removeItemLike);
 router.post("/new", itemController.createItem);
 router.post("/addcoment", itemController.addItemComment);
 router.post("/addlike", itemController.addItemLike);
 router.post("/:item_id/update", itemController.updateItem);
 router.post("/:item_id/delete", itemController.deleteItem);
+router.post("/:id", itemController.getItem);
 
 module.exports = router;
