@@ -6,7 +6,6 @@ const verifyRole = (...allowedRoles) => {
       return res
         .status(401)
         .send("You have no access to this resource or action");
-    console.log("Verify role ran");
     next();
   };
 };

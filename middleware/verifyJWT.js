@@ -13,7 +13,6 @@ const verifyJWT = (req, res, next) => {
     }
     req.role = decoded.role;
     req.user = decoded.username;
-    console.log("Verify JWT ran");
     next();
   });
 };
