@@ -8,10 +8,9 @@ const upload = multer();
 
 router.get("/getall", collectionController.getAllCollections);
 router.get("/getsorted", collectionController.getSortedCollections);
+router.get("/:col_id", collectionController.getSoloCollection);
 
 router.use(verifyJWT, verifyRole(1, 2));
-
-router.get("/:col_id", collectionController.getSoloCollection);
 
 router.post(
   "/new",
