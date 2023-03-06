@@ -3,10 +3,14 @@ const router = express.Router();
 const collectionController = require("../controllers/collectionController");
 const multer = require("multer");
 const verifyJWT = require("../middleware/verifyJWT");
+const verifyRole = require("../middleware/verifyRole");
 const upload = multer();
 
 router.get("/getall", collectionController.getAllCollections);
 router.get("/getsorted", collectionController.getSortedCollections);
+
+router.use(verifyJWT, verifyRole(1, 2));
+
 router.get("/:col_id", collectionController.getSoloCollection);
 
 router.post(
