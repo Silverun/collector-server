@@ -56,7 +56,6 @@ const loginUser = async (req, res) => {
             }
           );
           await user.update({ refreshToken: refreshToken });
-          console.log("refreshToken set to cookie from login", refreshToken);
           res.cookie("jwt", refreshToken, cookiesOpts);
           res.status(200).json({
             message: "Logged in!",

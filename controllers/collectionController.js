@@ -89,6 +89,7 @@ const createCollection = async (req, res) => {
 const editCollection = async (req, res) => {
   const { name, description, theme, authorId, extraFields, collectionId } =
     req.body;
+
   const image = req?.file?.buffer;
   let imageUrl;
   try {
@@ -119,6 +120,7 @@ const editCollection = async (req, res) => {
       );
       return res.status(200).send("Collection updated, image preserved");
     }
+
     await Collection.update(
       {
         imageUrl: imageUrl || "../img/cltr_logo_100.png",
@@ -130,6 +132,7 @@ const editCollection = async (req, res) => {
       },
       { where: { id: collectionId } }
     );
+
     res.send("Collection updated");
   } catch (error) {
     res.status(404).send(error);
